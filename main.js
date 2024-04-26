@@ -2,7 +2,21 @@
 const weatherAPIKey = "f76693de5c51ceb886c717bf7cb2d979";
 const weatherAPIURL = `https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}&units=metric`;
 
-
+const galleryImages = [
+    {
+        src: "./assets/gallery/image1.jpg",
+        alt: "Thumbnail Image 1"
+    },
+    {
+        src: "./assets/gallery/image2.jpg",
+        alt: "Thumbnail Image 2"
+    },
+    
+    {
+        src: "./assets/gallery/image3.jpg",
+        alt: "Thumbnail Image 3"
+    }
+];
 // Greeting Section
 
 function greetingHandler() {
@@ -78,6 +92,7 @@ function celsiusToFahr(temperature){
     let fahr = (temperature * 9/5) + 32;
     return fahr;
 }
+
 
 
 
