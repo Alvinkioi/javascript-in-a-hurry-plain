@@ -17,6 +17,7 @@ const galleryImages = [
         alt: "Thumbnail Image 3"
     }
 ];
+
 const products = [
     {
       title: "AstroFiction",
@@ -55,6 +56,26 @@ const products = [
       image: "./assets/products/img4.png"
     }
   ];
+
+// Menu Section
+
+function menuHandler() {
+    document.querySelector("#open-nav-menu").addEventListener("click", function(){
+        document.querySelector("header nav .wrapper").classList.add("nav-open");
+    });
+    
+    document.querySelector("#close-nav-menu").addEventListener("click", function(){
+        document.querySelector("header nav .wrapper").classList.remove("nav-open");
+    });
+}
+
+// Temperature Conversion
+
+function celsiusToFahr(temperature){
+    let fahr = (temperature * 9/5) + 32;
+    return fahr;
+}
+
 // Greeting Section
 
 function greetingHandler() {
@@ -76,17 +97,8 @@ function greetingHandler() {
 
 }
 
-// Clock Section
-function clockHandler() {
-    setInterval(function(){
-        let localTime = new Date();
-        document.querySelector("span[data-time=hours]").textContent = localTime.getHours().toString().padStart(2,"0");
-        document.querySelector("span[data-time=minutes]").textContent = localTime.getMinutes().toString().padStart(2,"0");
-        document.querySelector("span[data-time=seconds]").textContent = localTime.getSeconds().toString().padStart(2,"0");
-    },1000);
-}
+// Weather Text
 
-//weather section
 function weatherHandler(){
     navigator.geolocation.getCurrentPosition( position => {
         let latitude = position.coords.latitude;
@@ -125,12 +137,16 @@ function weatherHandler(){
         
     });
 }
-//converting temperature
-function celsiusToFahr(temperature){
-    let fahr = (temperature * 9/5) + 32;
-    return fahr;
-}
 
+// Local Time Section
+function clockHandler() {
+    setInterval(function(){
+        let localTime = new Date();
+        document.querySelector("span[data-time=hours]").textContent = localTime.getHours().toString().padStart(2,"0");
+        document.querySelector("span[data-time=minutes]").textContent = localTime.getMinutes().toString().padStart(2,"0");
+        document.querySelector("span[data-time=seconds]").textContent = localTime.getSeconds().toString().padStart(2,"0");
+    },1000);
+}
 // Gallery Section
 
 function galleryHandler() {
@@ -162,58 +178,60 @@ function galleryHandler() {
         thumbnails.appendChild(thumb);
     });
 }
+
 // Products Section
 
 function populateProducts(productList) {
         
-    let productsSection = document.querySelector(".products-area");
-    productsSection.textContent = "";
+        let productsSection = document.querySelector(".products-area");
+        productsSection.textContent = "";
+        
+        // Run a loop through the products and create an HTML element ("product-item") for each of them
+        productList.forEach(function(product, index){
+        
+            // Create the HTML element for the individual product 
+            let productElm = document.createElement("div");
+            productElm.classList.add("product-item");
     
-    // Run a loop through the products and create an HTML element ("product-item") for each of them
-    productList.forEach(function(product, index){
+            // Create the product image
+            let productImage = document.createElement("img");
+            productImage.src = product.image;
+            productImage.alt = "Image for " + product.title;
     
-        // Create the HTML element for the individual product 
-        let productElm = document.createElement("div");
-        productElm.classList.add("product-item");
-
-        // Create the product image
-        let productImage = document.createElement("img");
-        productImage.src = product.image;
-        productImage.alt = "Image for " + product.title;
-
-        // Create the product details section
-        let productDetails = document.createElement("div");
-        productDetails.classList.add("product-details");
-
-        // Create product title, author, price-title and price
-        let productTitle = document.createElement("h3");
-        productTitle.classList.add("product-title");
-        productTitle.textContent = product.title;
-        let productAuthor = document.createElement("p");
-        productAuthor.classList.add("product-author");
-        productAuthor.textContent = product.author;
-        let priceTitle = document.createElement("p");
-        priceTitle.classList.add("price-title");
-        priceTitle.textContent = "Price";
-        let productPrice = document.createElement("p");
-        productPrice.classList.add("product-price");
-        productPrice.textContent = product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
-
-        // Append the product details
-        productDetails.append(productTitle);
-        productDetails.append(productAuthor);
-        productDetails.append(priceTitle);
-        productDetails.append(productPrice);
-
-        // Add all child HTML elements of the product
-        productElm.append(productImage);
-        productElm.append(productDetails);
-
-        // Add complete individul product to the product section
-        productsSection.append(productElm);
-
-    });
+            // Create the product details section
+            let productDetails = document.createElement("div");
+            productDetails.classList.add("product-details");
+    
+            // Create product title, author, price-title and price
+            let productTitle = document.createElement("h3");
+            productTitle.classList.add("product-title");
+            productTitle.textContent = product.title;
+            let productAuthor = document.createElement("p");
+            productAuthor.classList.add("product-author");
+            productAuthor.textContent = product.author;
+            let priceTitle = document.createElement("p");
+            priceTitle.classList.add("price-title");
+            priceTitle.textContent = "Price";
+            let productPrice = document.createElement("p");
+            productPrice.classList.add("product-price");
+            productPrice.textContent = product.price > 0 ? "$" + product.price.toFixed(2) : "Free";
+    
+            // Append the product details
+            productDetails.append(productTitle);
+            productDetails.append(productAuthor);
+            productDetails.append(priceTitle);
+            productDetails.append(productPrice);
+    
+            // Add all child HTML elements of the product
+            productElm.append(productImage);
+            productElm.append(productDetails);
+    
+            // Add complete individul product to the product section
+            productsSection.append(productElm);
+    
+        });
 }
+
 function productsHandler(){
     
     let freeProducts = products.filter( item => !item.price || item.price <= 0);
@@ -238,29 +256,22 @@ function productsHandler(){
         }
     });
 }
-// Menu function
 
-function menuHandler() {
-    document.querySelector("#open-nav-menu").addEventListener("click", function(){
-        document.querySelector("header nav .wrapper").classList.add("nav-open");
-    });
-    
-    document.querySelector("#close-nav-menu").addEventListener("click", function(){
-        document.querySelector("header nav .wrapper").classList.remove("nav-open");
-    });
-}
 function footerHandler(){
     let currentYear = new Date().getFullYear();
     document.querySelector("footer").textContent = `Ⓒ ${currentYear} - All rights reserved`;
 }
 
-greetingHandler();
-clockHandler();
-weatherHandler();
-celsiusToFahr();
-galleryHandler();
-populateProducts();
-productsHandler();
+
+
+
+// Page Load
+
 menuHandler();
+greetingHandler();
+weatherHandler();
+clockHandler();
+galleryHandler();
+productsHandler();
 footerHandler();
 
