@@ -73,11 +73,16 @@ function weatherHandler(){
         
     });
 }
-
+//converting temperature
+function celsiusToFahr(temperature){
+    let fahr = (temperature * 9/5) + 32;
+    return fahr;
+}
 
 
 
 greetingHandler();
 clockHandler();
 weatherHandler();
+celsiusToFahr();
 
