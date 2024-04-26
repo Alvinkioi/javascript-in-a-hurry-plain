@@ -249,6 +249,10 @@ function menuHandler() {
         document.querySelector("header nav .wrapper").classList.remove("nav-open");
     });
 }
+function footerHandler(){
+    let currentYear = new Date().getFullYear();
+    document.querySelector("footer").textContent = `Ⓒ ${currentYear} - All rights reserved`;
+}
 
 greetingHandler();
 clockHandler();
@@ -258,4 +262,5 @@ galleryHandler();
 populateProducts();
 productsHandler();
 menuHandler();
+footerHandler();
 
