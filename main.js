@@ -214,6 +214,30 @@ function populateProducts(productList) {
 
     });
 }
+function productsHandler(){
+    
+    let freeProducts = products.filter( item => !item.price || item.price <= 0);
+
+    let paidProducts = products.filter( item => item.price > 0 );
+
+    populateProducts(products);
+
+    document.querySelector(".products-filter label[for=all] span.product-amount").textContent = products.length;
+    document.querySelector(".products-filter label[for=paid] span.product-amount").textContent = paidProducts.length;
+    document.querySelector(".products-filter label[for=free] span.product-amount").textContent = freeProducts.length;
+
+    let productsFilter = document.querySelector(".products-filter");
+    
+    productsFilter.addEventListener("click", function(e){
+        if (e.target.id === "all") {
+            populateProducts(products);
+        } else if (e.target.id === "paid") {
+            populateProducts(paidProducts);
+        } else if (e.target.id === "free") {
+            populateProducts(freeProducts);
+        }
+    });
+}
 
 
 greetingHandler();
@@ -221,4 +245,6 @@ clockHandler();
 weatherHandler();
 celsiusToFahr();
 galleryHandler();
+populateProducts();
+productsHandler();
 
