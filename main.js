@@ -34,11 +34,50 @@ function clockHandler() {
     },1000);
 }
 
-
+//weather section
+function weatherHandler(){
+    navigator.geolocation.getCurrentPosition( position => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let url = weatherAPIURL
+            .replace("{lat}",latitude)
+            .replace("{lon}",longitude)
+            .replace("{API key}",weatherAPIKey);
+        fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const condition = data.weather[0].description;
+            const location = data.name;
+            const temperature = data.main.temp;
+    
+            let celsiusText = `The weather is ${condition} in ${location} and it's ${temperature.toFixed(1)}°C outside.`;
+            let fahrText = `The weather is ${condition} in ${location} and it's ${celsiusToFahr(temperature).toFixed(1)}°F outside.`;
+            
+            document.querySelector("p#weather").innerHTML = celsiusText;
+            
+            // Temperature Switch
+            
+            document.querySelector(".weather-group").addEventListener("click", function(e){
+            
+                if (e.target.id == "celsius") {
+                    document.querySelector("p#weather").innerHTML = celsiusText;
+                } else if (e.target.id == "fahr") {
+                    document.querySelector("p#weather").innerHTML = fahrText;
+                }
+            
+            });
+    
+        }).catch((err => {
+            document.querySelector("p#weather").innerHTML = "Unable to get the weather info. Try again later.";
+        }));
+        
+    });
+}
 
 
 
 
 greetingHandler();
 clockHandler();
+weatherHandler();
 
